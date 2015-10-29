@@ -40,7 +40,6 @@ IMAGE_FEATURES += " \
                         ssh-server-dropbear \
                         node-runtime \
                         python-runtime \
-                        java-jdk \
                         "
 
 # TODO: app-privileges depends on enabled Smack. Add it only
