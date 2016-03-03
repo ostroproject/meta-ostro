@@ -103,8 +103,10 @@ no IMA keys are needed::
     OSTRO_EXTRA_IMAGE_VARIANTS = "imagevariant:noima imagevariant:dev,noima"
 
 
-Image Formats
--------------
+Image Formats for EFI platforms
+-------------------------------
+
+Note: The following chapter is applicable only to EFI platforms.
 
 It is possible to produce different types of images:
 
