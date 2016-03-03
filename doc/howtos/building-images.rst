@@ -103,6 +103,39 @@ no IMA keys are needed::
     OSTRO_EXTRA_IMAGE_VARIANTS = "imagevariant:noima imagevariant:dev,noima"
 
 
+Image Formats
+-------------
+
+It is possible to produce different types of images:
+
+.dsk:
+    The basic format, which can be written to a block device with "dd".
+
+.dsk.vdi:
+    VirtualBox format, for running OSTRO inside a Virtual Machine.
+
+compressed formats:
+    Same as above, only compressed, to reduce (final) space occupation
+    and speed up the transfer between systems of the Ostro OS image.
+    Notice that the creation of compressed images will require additional
+    temporary space, because the creation of the compressed image depends
+    on the presence of the uncompressed one.
+
+To customize the image format, modify ``local.conf``, adding the variable
+``OSTRO_VM_IMAGE_TYPES``, set to any combination of the following::
+
+    dsk dsk_xz dsk.vdi dsk.vdi_xz
+
+It will also trigger the creation of corresponding symlinks.
+
+Example::
+
+    OSTRO_VM_IMAGE_TYPES = "dsk_xz dsk.vdi_xz"
+
+will create both the raw and the VirtualBox images, both compressed.
+
+
+
 Development Images
 ------------------
 
