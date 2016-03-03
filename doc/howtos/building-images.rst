@@ -122,11 +122,13 @@ compressed formats:
     Notice that the creation of compressed images will require additional
     temporary space, because the creation of the compressed image depends
     on the presence of the uncompressed one.
+    Compression is either based on xz (typical for Linux systems) or on zip
+    for operating systems that do not support xz natively.
 
 To customize the image format, modify ``local.conf``, adding the variable
 ``OSTRO_VM_IMAGE_TYPES``, set to any combination of the following::
 
-    dsk dsk_xz dsk.vdi dsk.vdi_xz
+    dsk dsk_xz dsk.zip dsk.vdi dsk.vdi_xz dsk.vdi.zip
 
 It will also trigger the creation of corresponding symlinks.
 
