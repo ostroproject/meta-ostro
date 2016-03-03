@@ -9,3 +9,5 @@ INSANE_SKIP_${PN}-dev += "dev-elf"
 do_configure_prepend() {
     cp ${WORKDIR}/config ${S}/.config
 }
+
+require soletta-ptest.inc
