@@ -177,13 +177,10 @@ def do_dsk_image():
 
     # If requested, create a xz compressed version of the dsk image.
     if "dsk_xz" in image_types:
-        xz_image_name = \
-            os.path.join(expand_vars("${DEPLOY_DIR_IMAGE}"),
-                         expand_vars('${IMAGE_NAME}.dsk.xz'))
+        check_call(['xz', '-3', '-vk', full_image_name])
         xz_image_name_link = \
             os.path.join(expand_vars("${DEPLOY_DIR_IMAGE}"),
                          expand_vars('${BPN}-${MACHINE}.dsk.xz'))
-        check_call(['xz', '-3', '-vk', full_image_name])
         symlink(expand_vars('${IMAGE_NAME}.dsk.xz'), xz_image_name_link)
     # If requested, create a zip compressed version of the dsk image.
     if "dsk.zip" in image_types:
