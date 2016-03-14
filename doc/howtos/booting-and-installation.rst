@@ -134,9 +134,9 @@ Flashing an Intel Edison requires use of a breakout board and two micro-USB cabl
 #. Download the ``ostro-image`` or ``ostro-image-dev`` image from the Ostro OS download folder for edison (on https://download.ostroproject.org/releases/ostro-os/milestone/)
 #. Extract the image using the command ``$ tar xf ostro-image-*-edison-*.toflash.tar.bz2`` archive
 #. Change directory to the toFlash folder
-   **NOTE:** When flashing the ``-dev`` image please update ``IMAGE_NAME=`` in
-   the flashall.sh script. By default it will look for ``ostro-image``
-#. Run the command ``$ sudo ./flashall.sh``
+#. Run the command ``$ sudo ./flashall.sh`` |BR|
+   `NOTE:` If the script is unable to find the image please use the -i
+   <imagename> argument. 
 #. Plug in the second micro-USB cable to the J16 connector as instructed by the running flashall script
 #. Wait for all the images to flash. You will see the progress on both the flasher and on the serial console
 #. Once flashing is done, the image will automatically boot up and auto-login as ``root``, no password is required
