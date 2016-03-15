@@ -29,10 +29,19 @@
 IMAGE_TYPEDEP_dsk.xz = "dsk"
 IMAGE_TYPES_MASKED += "dsk_xz"
 
+IMAGE_TYPEDEP_dsk.zip = "dsk"
+IMAGE_TYPES_MASKED += "dsk.zip"
+
 IMAGE_TYPEDEP_dsk.vdi = "dsk"
 IMAGE_TYPES_MASKED += "dsk.vdi"
 
-IMAGE_DSK_ACTIVE = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'dsk dsk_xz dsk.vdi', True, False, d)}"
+IMAGE_TYPEDEP_dsk.vdi_xz = "dsk"
+IMAGE_TYPES_MASKED += "dsk.vdi_xz"
+
+IMAGE_TYPEDEP_dsk.vdi.zip = "dsk"
+IMAGE_TYPES_MASKED += "dsk.vdi.zip"
+
+IMAGE_DSK_ACTIVE = "${@bb.utils.contains_any('IMAGE_FSTYPES', 'dsk dsk_xz dsk.zip dsk.vdi dsk.vdi_xz dsk.vdi.zip', True, False, d)}"
 
 do_uefiapp[depends] += " \
                          systemd:do_deploy \
@@ -50,6 +59,7 @@ IMAGE_DEPENDS_dsk += " \
                        dosfstools-native:do_populate_sysroot \
                        qemu-native:do_populate_sysroot \
                        xz-native:do_populate_sysroot \
+                       zip-native:do_populate_sysroot \
                      "
 INITRD_append = "${@ ('${DEPLOY_DIR_IMAGE}/' + d.getVar('INITRD_IMAGE', expand=True) + '-${MACHINE}.cpio.gz') if d.getVar('INITRD_IMAGE', True) and ${IMAGE_DSK_ACTIVE} else ''}"
 

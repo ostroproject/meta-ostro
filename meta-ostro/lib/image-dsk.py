@@ -142,7 +142,8 @@ def do_dsk_image():
 
     image_types = lookup_var("IMAGE_FSTYPES").split()
     # Build .vdi images for use with VirtualBox, if so requested.
-    if "dsk.vdi" in image_types:
+    if set.intersection({"dsk.vdi", "dsk.vdi_xz", "dsk.vdi.zip"},
+                        set(image_types)) != set():
         vdi_image_name = \
             os.path.join(expand_vars("${DEPLOY_DIR_IMAGE}"),
                          expand_vars('${IMAGE_NAME}.dsk.vdi'))
@@ -151,17 +152,43 @@ def do_dsk_image():
                          expand_vars('${BPN}-${MACHINE}.dsk.vdi'))
         check_call(['qemu-img', 'convert', '-O', 'vdi',
                                 full_image_name, vdi_image_name])
-        symlink(expand_vars('${IMAGE_NAME}.dsk.vdi'), vdi_image_name_link)
+        # xz compressed vdi, if needed.
+        if "dsk.vdi_xz" in image_types:
+            check_call(['xz', '-3', '-vk', vdi_image_name])
+            vdi_xz_image_name_link = \
+                os.path.join(expand_vars("${DEPLOY_DIR_IMAGE}"),
+                             expand_vars('${BPN}-${MACHINE}.dsk.vdi.xz'))
+            symlink(expand_vars('${IMAGE_NAME}.dsk.vdi.xz'), vdi_xz_image_name_link)
+        # zip compressed vdi, if needed.
+        if "dsk.vdi.zip" in image_types:
+            check_call(['zip', '-9', vdi_image_name + ".zip", vdi_image_name])
+            vdi_zip_image_name_link = \
+                os.path.join(expand_vars("${DEPLOY_DIR_IMAGE}"),
+                             expand_vars('${BPN}-${MACHINE}.dsk.vdi.zip'))
+            symlink(expand_vars('${IMAGE_NAME}.dsk.vdi.zip'), vdi_zip_image_name_link)
+        # And / or uncompressed, if specified.
+        if "dsk.vdi" in image_types:
+            vdi_image_name_link = \
+                os.path.join(expand_vars("${DEPLOY_DIR_IMAGE}"),
+                             expand_vars('${BPN}-${MACHINE}.dsk.vdi'))
+            symlink(expand_vars('${IMAGE_NAME}.dsk.vdi'), vdi_image_name_link)
+        else:
+            os.remove(vdi_image_name)
+
     # If requested, create a xz compressed version of the dsk image.
     if "dsk_xz" in image_types:
-        xz_image_name = \
-            os.path.join(expand_vars("${DEPLOY_DIR_IMAGE}"),
-                         expand_vars('${IMAGE_NAME}.dsk.xz'))
+        check_call(['xz', '-3', '-vk', full_image_name])
         xz_image_name_link = \
             os.path.join(expand_vars("${DEPLOY_DIR_IMAGE}"),
                          expand_vars('${BPN}-${MACHINE}.dsk.xz'))
-        check_call(['xz', '-3', '-vk', full_image_name])
         symlink(expand_vars('${IMAGE_NAME}.dsk.xz'), xz_image_name_link)
+    # If requested, create a zip compressed version of the dsk image.
+    if "dsk.zip" in image_types:
+        check_call(['zip', '-9', full_image_name + ".zip", full_image_name])
+        zip_image_name_link = \
+            os.path.join(expand_vars("${DEPLOY_DIR_IMAGE}"),
+                         expand_vars('${BPN}-${MACHINE}.dsk.zip'))
+        symlink(expand_vars('${IMAGE_NAME}.dsk.zip'), zip_image_name_link)
     # If the plain .dsk file was not requested, remove it and save space.
     if not "dsk" in image_types:
         os.remove(full_image_name)
