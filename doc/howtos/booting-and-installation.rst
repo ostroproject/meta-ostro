@@ -131,13 +131,12 @@ Flashing an Intel Edison requires use of a breakout board and two micro-USB cabl
    for recovery cases.)
 #. Plug in a micro-USB cable to the J3 connector on the board (corner next to the FTDI chip)
 #. Flip the DIP switch towards jumper J16
-#. Open :command:`minicom` or other terminal program on your host computer to attach to the serial console
-#. Download the ``flashall`` folder from the Ostro OS download folder for edison (on https://download.ostroproject.org)
-#. Copy the flashall script (``flashall.sh``) from the flashall folder to the Ostro OS image folder
-#. Then in the image folder run:: 
-
-    $ sudo ./flashall.sh
-
+#. Download the ``ostro-image`` or ``ostro-image-dev`` image from the Ostro OS download folder for edison (on https://download.ostroproject.org/releases/ostro-os/milestone/)
+#. Extract the image using the command ``$ tar xf ostro-image-*-edison-*.toflash.tar.bz2`` archive
+#. Change directory to the toFlash folder
+#. Run the command ``$ sudo ./flashall.sh`` |BR|
+   `NOTE:` If the script is unable to find the image please use the -i
+   <imagename> argument. 
 #. Plug in the second micro-USB cable to the J16 connector as instructed by the running flashall script
 #. Wait for all the images to flash. You will see the progress on both the flasher and on the serial console
 #. Once flashing is done, the image will automatically boot up and auto-login as ``root``, no password is required
