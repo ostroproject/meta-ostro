@@ -141,7 +141,42 @@ Flashing an Intel Edison requires use of a breakout board and two micro-USB cabl
 #. Plug in the second micro-USB cable to the J16 connector as instructed by the running flashall script
 #. Wait for all the images to flash. You will see the progress on both the flasher and on the serial console
 #. Once flashing is done, the image will automatically boot up and auto-login as ``root``, no password is required
-     
+
+BeagleBone
+==========
+
+BeagleBone is booted from a microSD card. Partitions are MSDOS, not GPT.
+
+#. Create two partitions, 64 MB primary partition of type 6 (FAT16) and make it bootable, rest of the space as primary partition of type 83 (Linux)
+
+   To make the partition bootable run the commands fdisk /dev/sdX (where X is your microSD card)::
+
+    Command (m for help): p
+    Device     Boot  Start      End  Sectors  Size Id Type
+    /dev/sdd1  *      2048   133119   131072   64M  e W95 FAT16 (LBA)
+    /dev/sdd2       133120 15523839 15390720  7.3G 83 Linux
+
+   *NOTE:* The first partition needs an asterix boot flag set. If there is none, please run::
+
+    Command (m for help): a
+    Partition number (1,2, default 2): 1
+    Command (m for help): w
+    The partition table has been altered.
+    Calling ioctl() to re-read partition table.
+    Syncing disks.
+
+#. Format the first FAT partition using ``mkfs.vfat -n BOOTFS -F 16``
+#. Copy ``MLO`` and ``u-boot.img`` to the FAT16 partition
+#. Format the second partition using ``mkfs.ext4 -L rootfs``
+#. You may want to disable periodic filesystem check by using ``tune2fs -c0 -i0``
+#. Extract ``iot-os-image-beaglebone.tar.bz2`` to the ext4 partition, using tar >= version 1.27 and ``--xattrs --xattrs-include=*`` (otherwise Smack labels and IMA xattrs get lost)
+#. Copy ``zImage-am335x-boneblack.dtb`` as ``am335x-boneblack.dtb``, and ``zImage-am335x-bone.dtb`` as ``am335x-bone.dtb`` to ``boot/`` on this partition
+#. Insert the SDcard and power up the device
+
+Extra:
+
+#. You may need to use the alternate boot button S2 by holding it down at power up to boot from microSD instead of eMMC
+#. Once booted up from microSD you can prevent boot from eMMC by using ``dd if=/dev/zero of=/dev/mmcblk1 bs=4M count=1``
 
 Running Ostro OS in a VirtualBox\* VM
 ======================================
