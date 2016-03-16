@@ -32,6 +32,7 @@ IMAGE_FEATURES[validitems] += " \
     soletta-tools \
     swupd \
     tools-develop \
+    app-framework \
 "
 
 # These features come from base recipes, but are not added to
@@ -91,6 +92,7 @@ IMAGE_FEATURES += " \
                         soletta \
                         ${@bb.utils.contains('DISTRO_FEATURES', 'smack', 'smack', '', d)} \
                         swupd \
+                        app-framework \
                         ${OSTRO_EXTRA_IMAGE_FEATURES} \
                         "
 OSTRO_EXTRA_IMAGE_FEATURES ?= ""
@@ -123,13 +125,21 @@ BBCLASSEXTEND = " \
 # added. Right now, users need to do that in their local.conf:
 # OSTRO_EXTRA_IMAGE_VARIANTS = "imagevariant:noima imagevariant:dev,noima"
 
-# The AppFW depends on the security framework and user management, and these frameworks
-# (currently?) make little sense without apps, therefore a single image feature is used
-# for all of these.
+FEATURE_PACKAGES_app-framework = " \
+    packagegroup-app-framework \
+"
+
+# This is the old single combined feature to pull in app-fw, user
+# management and security framework. As it hardly makes sense any
+# more so it should probably be just removed in the near future.
 FEATURE_PACKAGES_app-privileges = " \
     packagegroup-user-management \
     packagegroup-app-framework \
     packagegroup-security-framework \
+"
+
+FEATURE_PACKAGES_app-framework = " \
+    packagegroup-app-framework \
 "
 
 FEATURE_PACKAGES_connectivity = "packagegroup-core-connectivity"
