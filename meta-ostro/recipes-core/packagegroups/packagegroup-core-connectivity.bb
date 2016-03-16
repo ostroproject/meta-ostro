@@ -11,4 +11,5 @@ RDEPENDS_${PN} = "\
     connman \
     connman-client \
     lowpan-tools \
+    neard \
     "
