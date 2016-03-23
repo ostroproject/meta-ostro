@@ -37,6 +37,7 @@ IMAGE_FEATURES[validitems] += " \
 # These features come from base recipes, but are not added to
 # IMAGE_FEATURES[validitems]. Should better be fixed there.
 IMAGE_FEATURES[validitems] += " \
+    dev-pkgs \
     ptest-pkgs \
     ssh-server-openssh \
     tools-debug \
@@ -49,6 +50,7 @@ IMAGE_FEATURES[validitems] += " \
 # avoids unnecessary proliferation of image variations that
 # need to be built automatically.
 IMAGE_VARIANT[dev] = " \
+    dev-pkgs \
     ptest-pkgs \
     tools-debug \
     tools-develop \
