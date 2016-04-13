@@ -139,6 +139,7 @@ BUNDLE_CONTENTS[full] = " \
     ${FEATURE_PACKAGES_iotivity} \
     ${FEATURE_PACKAGES_java-jdk} \
     ${FEATURE_PACKAGES_node-runtime} \
+    ${FEATURE_PACKAGES_nodejs-runtime-tools} \
     ${FEATURE_PACKAGES_python-runtime} \
     ${FEATURE_PACKAGES_qatests} \
     ${FEATURE_PACKAGES_soletta} \
