@@ -21,11 +21,39 @@ Ostro OS based software can be deployed to a target device in two ways:
   component.
 
 
+Software Update
+===============
+The main concept behind the Software Update tool_ is that it doesn't
+rely on the target device to perform the installation of packages,
+handle file conflicts, dependency and versioning check.
+Instead, all of this happens a priori, on a build server.
+And it happens only once, instead of trying to repeat the same
+operations on each device.
+All the device needs to do is to lookup a reference file (manifest)
+for the list of files it must acquire, should they not be present locally.
+The tool focuses on high level functionality (bundles), instead of
+individual packages.
+In detail, the Software Update functionality is comprised of a pair of
+tools:
+
+ - Software Update Server
+
+   A back end tool which generates the bundle/update data stream.
+
+ - Software Update Client
+
+   A tool that resides on the device and consumes/applies the data
+   from the bundle/update stream.
+
+
 Software Update Server
 ======================
 
-The software update server runs for example,
-on a CI (Continuous Integration) server and not on the device itself.
+The software update server is a tool used to produce the stream of updates
+that, later on, a device can consume, to upgrade itself.
+It runs on the backend machine(s) producing the build artefacts.
+For example, in the case of a large build infrastructure, it can run on
+a CI (Continuous Integration) server.
 For each build, the server generates information specific to that build
 (in software update lingo, the delta from version 0) and related to
 previous builds (deltas from a customizable number of previous versions).
@@ -35,7 +63,7 @@ and consumed by the software update client running on supported devices.
 
 Update information is secured by generating hashes of each file and then
 signing the file containing the references to the hashes.
-A secure channel is not required to distribute the updates.
+There is no need for a secure channel, for distributing the updates.
 As long as the signature and integrity checks are satisfied, the software
 update client will treat them as trusted.
 
@@ -64,6 +92,15 @@ software update client program.
 
 Ostro OS developers can also use bundles by following the rule that each application is
 contained in its own bundle.
+
+As said earlier, bundles differ from traditional packages, because they are simply
+a mechanism to deliver files to the device.
+Any possible conflict that might appear when attempting to deploy software components
+will happen on the build servers and will be solved there.
+
+Bundles are therefore produced from a rootfs context that has been already vetted.
+
+.. _tool: https://clearlinux.org/documentation/index_sw_update.html
 
 .. _bundles: https://clearlinux.org/documentation/bundles_overview.html
 
