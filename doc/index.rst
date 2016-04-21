@@ -19,6 +19,7 @@ Getting Started
    quick_start/about
    quick_start/platforms
    quick_start/quick_start
+   quick_start/contributor-guide
    quick_start/access-support
 
 Architecture Guides
