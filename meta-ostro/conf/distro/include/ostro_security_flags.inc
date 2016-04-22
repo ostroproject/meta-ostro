@@ -24,4 +24,3 @@ SECURITY_NO_PIE_CFLAGS += "-Wformat -Wformat-security"
 # these packages do not compile with Wformat and Wformat-security
 SECURITY_CFLAGS_remove_pn-openjdk-8-jre = "-Wformat -Wformat-security"
 SECURITY_CFLAGS_remove_pn-gsignond = "-Wformat -Wformat-security"
-SECURITY_CFLAGS_remove_pn-soletta-dev-app = "-Wformat -Wformat-security"
