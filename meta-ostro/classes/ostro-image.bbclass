@@ -40,7 +40,6 @@ OSTRO_IMAGE_PKG_FEATURES = " \
     connectivity \
     devkit \
     iotivity \
-    java-jdk \
     nodejs-runtime \
     nodejs-runtime-tools \
     python-runtime \
