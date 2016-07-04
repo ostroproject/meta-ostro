@@ -152,6 +152,11 @@ IMAGE_INSTALL += "util-linux"
 export ALTERNATIVE_PRIORITY_SHADOW ?= "305"
 IMAGE_INSTALL += "shadow"
 
+# Add Thermal daemon for intel-corei7-64
+IMAGE_INSTALL_THERMAL_DAEMON = ""
+IMAGE_INSTALL_THERMAL_DAEMON_intel-corei7-64 = "thermald"
+IMAGE_INSTALL += "${IMAGE_INSTALL_THERMAL_DAEMON}"
+
 # Additional features and packages used in the base images of
 # ostro-image-swupd.bb and ostro-image-noswupd.bb.
 OSTRO_IMAGE_FEATURES_REFERENCE ?= " \
