@@ -87,6 +87,7 @@ gdbm@core
 gettext@core
 git@core
 glib-2.0@core
+glib-networking@core
 glibc-locale@core
 glibc-mtrace@core
 glibc@core
@@ -148,6 +149,7 @@ libpcap@core
 libpcre@core
 libpng@core
 libsocketcan@openembedded-layer
+libsoup-2.4@core
 libtool@core
 liburcu@core
 libusb-compat@core
