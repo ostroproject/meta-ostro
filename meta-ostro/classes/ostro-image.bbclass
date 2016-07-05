@@ -185,6 +185,7 @@ FEATURE_PACKAGES_iotivity = "packagegroup-iotivity"
 FEATURE_PACKAGES_devkit = "packagegroup-devkit \
     ${@ bb.utils.contains('IMAGE_FEATURES', 'java-jdk', 'mraa-java upm-java', '', d)} \
     ${@ bb.utils.contains('IMAGE_FEATURES', 'python-runtime', 'python-mraa', '', d)} \
+    ${@ bb.utils.contains('IMAGE_FEATURES', 'nodejs-runtime', 'node-mraa node-upm', '', d)} \
 "
 
 FEATURE_PACKAGES_nodejs-runtime = "packagegroup-nodejs-runtime"
