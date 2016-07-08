@@ -217,6 +217,7 @@ systemd-compat-units@core
 systemd-watchdog@quark-bsp
 systemd@core
 tcp-smack-test@security-smack
+thermald@intel
 tzdata@core
 u-boot-edison@edison
 u-boot-fw-utils-edison@edison
