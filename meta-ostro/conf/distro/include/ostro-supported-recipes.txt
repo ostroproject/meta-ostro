@@ -154,7 +154,7 @@ liburcu@core
 libusb-compat@core
 libusb1@core
 libxml2@ostro
-libxslt@core
+libxslt@ostro
 linux-firmware@core
 linux-libc-headers@core
 linux-yocto-edison@edison
