@@ -67,6 +67,7 @@ dbus-glib@core
 dbus-test@core
 dbus@core
 diffutils@core
+dosfstools@ostro
 e2fsprogs@core
 elfutils@core
 example-app-c@appfw
