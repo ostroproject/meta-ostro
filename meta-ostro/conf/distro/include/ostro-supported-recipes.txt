@@ -153,7 +153,7 @@ libtool@core
 liburcu@core
 libusb-compat@core
 libusb1@core
-libxml2@core
+libxml2@ostro
 libxslt@core
 linux-firmware@core
 linux-libc-headers@core
