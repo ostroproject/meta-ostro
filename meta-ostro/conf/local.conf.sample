@@ -146,6 +146,14 @@ PACKAGE_CLASSES ?= "package_ipk"
 # To use this variable, uncomment the following line and set it to what you want:
 #OSTRO_IMAGE_EXTRA_FEATURES = "dev-pkgs tools-sdk debug-tweaks"
 
+#
+# Removing unwanted features
+#
+# Some features might not be desired and do take significant amounts of resources.
+# To avoid building them, use DISTRO_FEATURES_remove
+# Ex: disabling the bootstrap and building of the Java JDK:
+# DISTRO_REATURES_remove = "java"
+
 # By default, the root account has no password set and thus cannot
 # be logged into from outside. Local root access can be enabled
 # as described in doc/howtos/building-images.rst.

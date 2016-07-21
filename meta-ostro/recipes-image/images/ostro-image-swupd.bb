@@ -45,11 +45,6 @@ OSTRO_IMAGE_EXTRA_INSTALL += "${OSTRO_IMAGE_INSTALL_REFERENCE}"
 # Must contain all of the Ostro OS components because
 # otherwise they would not be available via swupd.
 #
-# Developers are able to tweak this bundle (for example, disabling the
-# JDK because building Java is slow) by modifying the variable in
-# their local.conf (BUNDLE_CONTENTS_WORLD_remove = "java-jdk") or
-# overridding it entirely (BUNDLE_CONTENTS_WORLD = "iotivity").
-#
 # Features already added to the os-core are listed here again
 # for the sake of simplicity. To remove them, both BUNDLE_CONTENTS_WORLD
 # and OSTRO_IMAGE_EXTRA_FEATURES need to be modified.
