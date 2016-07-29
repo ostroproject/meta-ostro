@@ -45,22 +45,19 @@ OSTRO_IMAGE_EXTRA_INSTALL += "${OSTRO_IMAGE_INSTALL_REFERENCE}"
 # Must contain all of the Ostro OS components because
 # otherwise they would not be available via swupd.
 #
-# Developers are able to tweak this bundle (for example, disabling the
-# JDK because building Java is slow) by modifying the variable in
-# their local.conf (BUNDLE_CONTENTS_WORLD_remove = "java-jdk") or
-# overridding it entirely (BUNDLE_CONTENTS_WORLD = "iotivity").
+# Developers are able to tweak this bundle by modifying the variables in
+# their local.conf (BUNDLE_CONTENTS_WORLD_append = " perf") or
+# overridding it entirely (BUNDLE_CONTENTS_WORLD = "iotivity",
+# BUNDLE_FEATURES_WORLD = "").
 #
 # Features already added to the os-core are listed here again
-# for the sake of simplicity. To remove them, both BUNDLE_CONTENTS_WORLD
+# for the sake of simplicity. To remove them, both BUNDLE_FEATURES_WORLD
 # and OSTRO_IMAGE_EXTRA_FEATURES need to be modified.
-#
-# We re-use OSTRO_IMAGE_PKG_FEATURES here, so Ostro OS components only
-# need to be listed once in ostro-image.bbclass. The variable expansion
-# is done so that bitbake sees the FEATURE_PACKAGES_foobar variables
-# and thus can add them to the vardeps of BUNDLE_CONTENTS_WORLD.
 BUNDLE_CONTENTS_WORLD ?= " \
-    ${@ ' '.join(['$' + chr(123) + 'FEATURE_PACKAGES_' + x + chr(125)  for x in d.getVar('OSTRO_IMAGE_PKG_FEATURES', True).split()])} \
     ${OSTRO_IMAGE_INSTALL_DEV} \
+"
+BUNDLE_FEATURES_WORLD ?= " \
+    ${OSTRO_IMAGE_PKG_FEATURES} \
 "
 
 # The additional features automatically add development and
@@ -75,6 +72,7 @@ BUNDLE_CONTENTS[world-dev] = " \
     ${BUNDLE_CONTENTS_WORLD} \
 "
 BUNDLE_FEATURES[world-dev] = " \
+    ${BUNDLE_FEATURES_WORLD} \
     dev-pkgs \
     ptest-pkgs \
 "
