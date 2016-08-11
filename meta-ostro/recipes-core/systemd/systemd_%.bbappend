@@ -12,6 +12,7 @@ DEPENDS += " ${@bb.utils.contains('MACHINE_FEATURES', 'efi', 'gnu-efi', '', d)}"
 
 SRC_URI_append = " \
                   file://0001-Workaround-remove-handling-of-custom-cmdline.patch \
+		  file://0002-Add-network.target-dependency-in-systemd-timesyncd.patch \
                  "
 
 # Needed to be able to find gnu-efi headers/libs

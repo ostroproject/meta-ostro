@@ -1,0 +1,25 @@
+From 415c16ff2736731a763a2f4f890de523a3bc0c11 Mon Sep 17 00:00:00 2001
+From: neofang7 <neo.fang@intel.com>
+Date: Mon, 8 Aug 2016 10:50:43 +0000
+Subject: [PATCH] Add network.target dependency in systemd-timesyncd.service
+
+---
+ units/systemd-timesyncd.service.in | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/units/systemd-timesyncd.service.in b/units/systemd-timesyncd.service.in
+index df1e339..28d38d6 100644
+--- a/units/systemd-timesyncd.service.in
++++ b/units/systemd-timesyncd.service.in
+@@ -12,7 +12,7 @@ ConditionCapability=CAP_SYS_TIME
+ ConditionVirtualization=!container
+ DefaultDependencies=no
+ RequiresMountsFor=/var/lib/systemd/clock
+-After=systemd-remount-fs.service systemd-tmpfiles-setup.service systemd-sysusers.service
++After=systemd-remount-fs.service systemd-tmpfiles-setup.service systemd-sysusers.service network.target
+ Before=time-sync.target sysinit.target shutdown.target
+ Conflicts=shutdown.target
+ Wants=time-sync.target
+-- 
+2.7.4
+
