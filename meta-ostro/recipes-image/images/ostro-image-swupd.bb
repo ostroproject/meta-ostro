@@ -85,6 +85,7 @@ BUNDLE_CONTENTS[qa-bundle-a] = " \
 BUNDLE_CONTENTS[qa-bundle-b] = " \
     hello-bundle-b \
     hello-bundle-s \
+    example-app-c  \
 "
 
 # When swupd bundles are enabled, choose explicitly which images
