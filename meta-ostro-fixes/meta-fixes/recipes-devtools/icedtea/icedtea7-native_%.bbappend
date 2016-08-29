@@ -1,0 +1,7 @@
+
+EXTRA_OEMAKE_append = ' \
+    OE_CFLAGS="${CFLAGS}" \
+    OE_CPPFLAGS="${CPPFLAGS}" \
+    OE_CXXFLAGS="${CXXFLAGS}" \
+    OE_LDFLAGS="${LDFLAGS}" \
+'
