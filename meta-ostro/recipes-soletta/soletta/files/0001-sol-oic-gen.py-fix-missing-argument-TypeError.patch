@@ -1,0 +1,35 @@
+From 581ddbf3418bb35d67f38da045a66766b35116cd Mon Sep 17 00:00:00 2001
+From: Mikko Ylinen <mikko.ylinen@intel.com>
+Date: Tue, 19 Apr 2016 06:08:52 +0300
+Subject: [PATCH] sol-oic-gen.py: fix missing argument TypeError
+
+3fd4cfd was incomplete and the generator started spitting:
+
+"TypeError: not enough arguments for format string"
+
+This makes the resulting oic.c incomplete and the build
+fails.
+
+Upstream-Status: Submitted [https://github.com/solettaproject/soletta/pull/1904]
+
+Signed-off-by: Mikko Ylinen <mikko.ylinen@intel.com>
+---
+ data/scripts/sol-oic-gen.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/data/scripts/sol-oic-gen.py b/data/scripts/sol-oic-gen.py
+index 559040a..bb09167 100755
+--- a/data/scripts/sol-oic-gen.py
++++ b/data/scripts/sol-oic-gen.py
+@@ -152,7 +152,7 @@ def generate_object_to_repr_vec_fn_common_c(state_struct_name, name, props, clie
+         if 'enum' in prop_descr:
+             tbl = '%s_%s_tbl' % (state_struct_name, prop_name)
+             val = '%s[state->state.%s].key' % (tbl, prop_name)
+-            vallen = '%s[state->state.%s].len' % val
++            vallen = '%s[state->state.%s].len' % (tbl, prop_name)
+ 
+             ftype = 'SOL_OIC_REPR_TEXT_STRING'
+             fargs = (val, vallen)
+-- 
+2.8.0.rc3
+
