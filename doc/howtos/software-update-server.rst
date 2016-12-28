@@ -47,9 +47,9 @@ These are the main steps:
    If set explicitly, this number must be increased before each build
    that generates swupd update artefacts.
 
-#. Assign a list of bundle names to ``SWUPD_BUNDLES``::
+#. Add a list of bundle names to ``SWUPD_BUNDLES``::
 
-     SWUPD_BUNDLES = "feature_one feature_two"
+     SWUPD_BUNDLES_append = "feature_one feature_two"
 
 #. For each named bundle, setup a varflag of ``BUNDLE_CONTENTS``
    that matches the bundle name, and initialize it with a list of
