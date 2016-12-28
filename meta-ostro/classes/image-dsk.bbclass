@@ -295,11 +295,27 @@ export PART_%(pnum)d_FS=%(filesystem)s
     shutil.copyfile(d.expand('${B}/emmc-partitions-data'), d.expand('${DEPLOYDIR}/emmc-partitions-data'))
 }
 
+# To be populated when creating the uefiapp.
 DEPLOYDIR = "${WORKDIR}/uefiapp-${PN}"
-SSTATETASKS += "do_uefiapp"
+# Permanent location of the uefiapp, also available when restoring from sstate.
+# Shared between all image variants of the same base image. Only the
+# base image executes do_uefiapp, all other image variants take the
+# result from there.
+UEFIAPPDIR = "${DEPLOY_DIR_IMAGE}/${@ d.getVar('PN_BASE', True) if d.getVar('PN_BASE', True) else '${PN}'}-uefiapp"
 do_uefiapp[vardeps] += " APPEND"
 do_uefiapp[sstate-inputdirs] = "${DEPLOYDIR}"
-do_uefiapp[sstate-outputdirs] = "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}-uefiapp"
+do_uefiapp[sstate-outputdirs] = "${UEFIAPPDIR}"
+# uefiapp_deploy will copy the entire directory, therefore we
+# have to ensure that there is no cruft left over from
+# previous builds (sstate support will add to the target directory
+# and overwrite old files, but not remove extra ones).
+do_uefiapp[cleandirs] = "${UEFIAPPDIR}"
+do_uefiapp_setscene[cleandirs] = "${UEFIAPPDIR}"
+# This has to be set unconditionally because it must be set
+# when the anonymous python code in sstate.bbclass runs. There
+# is no guaranteed ordering of anonymous python code and in practice
+# the code below really ran too late.
+SSTATETASKS += 'do_uefiapp'
 
 python do_uefiapp_setscene () {
     sstate_setscene(d)
@@ -308,16 +324,27 @@ python do_uefiapp_setscene () {
 uefiapp_deploy() {
   #Let's make sure that only what is needed stays in the /boot dir
   rm -rf ${IMAGE_ROOTFS}/boot/*
-  cp  --preserve=timestamps -r ${DEPLOYDIR}/* ${IMAGE_ROOTFS}/boot/
+  cp  --preserve=timestamps -r ${UEFIAPPDIR}/* ${IMAGE_ROOTFS}/boot/
   chown -R root:root ${IMAGE_ROOTFS}/boot
 }
 
 do_uefiapp[dirs] = "${DEPLOYDIR} ${B}"
 
-addtask do_uefiapp_setscene
-addtask do_uefiapp
-
-addtask do_uefiapp before do_rootfs
+python () {
+    # PN_BASE is set by meta-swupd when creating variants of the base
+    # image. As an additional sanity check we also check PN, but that
+    # shouldn't be necessary because the base image does not have PN_BASE
+    # set.
+    pn_base = d.getVar('PN_BASE', True)
+    pn = d.getVar('PN', True)
+    if pn_base and pn_base != pn:
+        # variant, use uefiapp from base
+        d.appendVarFlag('do_rootfs', 'depends', ' %s:do_uefiapp' % pn_base)
+    else:
+        # base image, do the work
+        bb.build.addtask('do_uefiapp', 'do_rootfs', None, d)
+        bb.build.addtask('do_uefiapp_setscene', None, None, d)
+}
 
 ROOTFS_POSTPROCESS_COMMAND += " uefiapp_deploy; "
 
